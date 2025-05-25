@@ -2,23 +2,25 @@
 -- CUSTODIO, QUEVIN JAMES A.
 -- JOYOSA, EUNEL JACOB C.
 -- TAMAYO, JOHANNES NIKOLAI WENDELLSOHN Z.
--- Milestone 3
+-- project
 
 -- clear 'project' database if there are any to make sure
-DROP DATABASE IF EXISTS project;
+DROP DATABASE IF EXISTS student_org_db;
 
 -- Create user & grant access 
-CREATE OR REPLACE USER 'admin' IDENTIFIED BY 'admin';
-CREATE DATABASE IF NOT EXISTS project;
-GRANT ALL ON project.* TO 'admin';
+CREATE OR REPLACE USER 'admin_user' IDENTIFIED BY 'password';
+CREATE DATABASE IF NOT EXISTS student_org_db;
+GRANT ALL ON student_org_db.* TO 'admin_user'@'localhost';
+FLUSH PRIVILEGES;
 
--- use database 'project'
-USE 'project';
+-- use newly created database
+USE student_org_db;
 
 -- Tables ------------------------------------------------------------------------------------------------
 -- Student Organization Table
 CREATE TABLE IF NOT EXISTS student_org (
   org_name VARCHAR(50) PRIMARY KEY,
+  org
   username VARCHAR(25) NOT NULL,
   password VARCHAR(25) NOT NULL,
   organization_type VARCHAR(50),
