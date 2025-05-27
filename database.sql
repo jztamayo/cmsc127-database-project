@@ -212,49 +212,94 @@ VALUES
   (3008, 'Daiki', 'drdaiki', 'M', 2020, 'ChemEng', str_to_date('03-SEP-2020','%d-%b-%Y')),
   (3009, 'Kotoha', 'kotohahaha', 'F', 2018, 'Agri', str_to_date('30-NOV-2018','%d-%b-%Y'));
 
--- -- INSERT VALUES to fee table
--- INSERT INTO fee -- initial insert
--- VALUES
---   (100, 'Org Fund', '22-23', str_to_date('20-APR-2023','%d-%M-%Y'), 300.00, 'Red');
-  
--- -- insert w/o fee_id for auto_increment
--- INSERT INTO fee (purpose, acad_yr, due_date, amount, org_name)
--- VALUES
---   ('Membership', '22-23', str_to_date('20-APR-2023','%d-%M-%Y'), 200.00, 'Yellow'),
---   ('Event', '23-24', str_to_date('17-NOV-2023','%d-%M-%Y'), 50000.00, 'Blue'),
---   ('Org Fund', '24-25', str_to_date('20-APR-2025','%d-%M-%Y'), 1000.00, 'Green'),
---   ('Equipment', '21-22', str_to_date('14-OCT-2021','%d-%M-%Y'), 4200.00, 'Red'),
---   ('Donation', '23-24', CURDATE(), 200.00, 'Blue'),
---   ('Membership', '24-25', str_to_date('20-APR-2025','%d-%M-%Y'), 300.00, 'Yellow'),
---   ('Event', '22-23', str_to_date('17-NOV-2022','%d-%M-%Y'), 50000.00, 'Green'),
---   ('Org Fund', '23-24', str_to_date('20-APR-2024','%d-%M-%Y'), 1000.00, 'Red'),
---   ('Equipment', '22-23', str_to_date('14-OCT-2022','%d-%M-%Y'), 4200.00, 'Blue'),
---   ('Donation', '24-25', CURDATE(), 200.00, 'Green');  
+-- STUDENT_ORG_MEMBER 
+-- org_name, member_id, role, status, is executive, acad_yr, semester, 
+INSERT INTO student_org_member VALUES
+  ('Red', 3000, 'President', 'Active', 1, '24-25', 1),
+  ('Red', 3001, 'Secretary', 'Active', 1, '24-25', 1),
+  ('Red', 3002, 'Member', 'Active', 0, '23-24', 2),
+  ('Red', 3003, 'Member', 'Active', 0, '24-25', 2),
+  ('Red', 3004, 'Member', 'Active', 0, '23-24', 1),
+  ('Red', 3005, 'Member', 'Alumni', 0, '21-22', 1),
+  ('Red', 3006, 'Vice President', 'Active', 1, '24-25', 2),
+  ('Red', 3007, 'Member', 'Inactive', 0, '22-23', 2),
+  ('Red', 3008, 'Treasurer', 'Active', 1, '23-24', 1),
+  ('Red', 3009, 'Member', 'Alumni', 0, '20-21', 2);
 
--- -- INSERT VALUES to student_org_member
--- INSERT INTO student_org_member
--- VALUES
---   ('Yellow', 2000, 'President', 'Active', 1, '24-25', 1),
---   ('Yellow', 2001, 'Secretary', 'Active', 1, '24-25', 1),
---   ('Blue', 2002, 'Member', 'Inactive', 0, '22-23', 2),
---   ('Yellow', 2003, 'Treasurer', 'Active', 1, '24-25', 1),
---   ('Green', 2004, 'Member', 'Active', 0, '22-23', 1),
---   ('Red', 2005, 'Member', 'Active', 0, '22-23', 1),
---   ('Blue', 2006, 'Member', 'Active', 0, '22-23', 1),
---   ('Yellow', 2007, 'Member', 'Active', 0, '24-25', 1),
---   ('Red', 2008, 'Member', 'Active', 0, '24-25', 1),
---   ('Green', 2009, 'Member', 'Active', 0, '24-25', 1);
 
--- -- INSERT VALUES to member_pays_fee
--- INSERT INTO member_pays_fee
--- VALUES
---   (2000, 100, 'Completed', '2023-04-15'),
---   (2001, 101, 'Completed', '2023-04-15'),
---   (2003, 103, 'Unpaid', NULL),
---   (2004, 104, 'Completed', '2023-11-17'),
---   (2002, 102, 'Completed', NULL);
+-- INSERT VALUES to fee table
+INSERT INTO fee VALUES
+  (301, 'Annual Dues', '24-25', str_to_date('20-JUL-2024','%d-%M-%Y'), 3200.00, 'Red'),
+  (302, 'Membership', '24-25', str_to_date('05-AUG-2024','%d-%M-%Y'), 250.00, 'Red'),
+  (303, 'Event Fee', '24-25', str_to_date('15-DEC-2024','%d-%M-%Y'), 700.00, 'Red'),
+  (304, 'Equipment', '24-25', str_to_date('20-FEB-2025','%d-%M-%Y'), 2000.00, 'Red'),
+  (305, 'Workshop Fee', '24-25', str_to_date('25-JAN-2025','%d-%M-%Y'), 1000.00, 'Red'),
+  (306, 'Executive Dues', '24-25', str_to_date('05-MAR-2025','%d-%M-%Y'), 1300.00, 'Red'),
+  (307, 'Donation', '24-25', NULL, 4000.00, 'Red'),
+  (308, 'Annual Dues', '23-24', str_to_date('22-JUL-2023','%d-%M-%Y'), 3100.00, 'Red'),
+  (309, 'Membership', '23-24', str_to_date('10-AUG-2023','%d-%M-%Y'), 250.00, 'Red'),
+  (310, 'Event Fee', '23-24', str_to_date('18-NOV-2023','%d-%M-%Y'), 850.00, 'Red'),
+  (311, 'Equipment', '23-24', str_to_date('25-FEB-2024','%d-%M-%Y'), 1900.00, 'Red'),
+  (312, 'Workshop Fee', '23-24', str_to_date('22-JAN-2024','%d-%M-%Y'), 950.00, 'Red'),
+  (313, 'Executive Dues', '23-24', str_to_date('10-MAR-2024','%d-%M-%Y'), 1200.00, 'Red'),
+  (314, 'Donation', '23-24', NULL, 2500.00, 'Red');
 
--- -- CRUD OPERATIONS
+-- INSERT VALUES to member_pays_fee (For Red Org)
+INSERT INTO member_pays_fee VALUES
+  (3000, 301, 'Completed', '2024-07-19'),
+  (3000, 302, 'Completed', '2024-08-04'),
+  (3000, 303, 'Unpaid', NULL),
+  (3000, 304, 'Completed', '2025-02-21'),
+  (3000, 305, 'Completed', '2025-01-24'),
+  (3000, 306, 'Unpaid', NULL);
+
+INSERT INTO member_pays_fee VALUES
+  (3006, 301, 'Completed', '2024-07-20'),
+  (3006, 302, 'Completed', '2024-08-05'),
+  (3006, 303, 'Completed', '2024-12-14'),
+  (3006, 304, 'Unpaid', NULL),
+  (3006, 305, 'Completed', '2025-01-26'),
+  (3006, 306, 'Completed', '2025-03-05');
+
+INSERT INTO member_pays_fee VALUES
+  (3001, 301, 'Completed', '2024-07-21'),
+  (3001, 302, 'Completed', '2024-08-06'),
+  (3001, 303, 'Unpaid', NULL),
+  (3001, 304, 'Completed', '2025-02-22'),
+  (3001, 305, 'Unpaid', NULL),
+  (3001, 306, 'Completed', '2025-03-06');
+
+INSERT INTO member_pays_fee VALUES
+  (3008, 308, 'Completed', '2023-07-22'),
+  (3008, 309, 'Completed', '2023-08-10'),
+  (3008, 310, 'Unpaid', NULL),
+  (3008, 311, 'Completed', '2024-02-26'),
+  (3008, 312, 'Completed', '2024-01-22'),
+  (3008, 313, 'Completed', '2024-03-10');
+
+INSERT INTO member_pays_fee VALUES
+  (3003, 301, 'Unpaid', NULL),
+  (3003, 302, 'Completed', '2024-08-07'),
+  (3003, 303, 'Completed', '2024-12-15'),
+  (3003, 304, 'Unpaid', NULL);
+
+INSERT INTO member_pays_fee VALUES
+  (3004, 308, 'Completed', '2023-07-23'),
+  (3004, 309, 'Unpaid', NULL),
+  (3004, 310, 'Completed', '2023-11-18'),
+  (3004, 311, 'Completed', '2024-02-27');
+
+INSERT INTO member_pays_fee VALUES
+  (3007, 311, 'Unpaid', NULL);
+
+INSERT INTO member_pays_fee VALUES
+  (3005, 301, 'Completed', '2021-07-20'),
+  (3005, 302, 'Completed', '2021-08-05');
+
+INSERT INTO member_pays_fee VALUES
+  (3009, 301, 'Unpaid', NULL);
+
+-- CRUD OPERATIONS
 -- SELECT tables to view all rows and columns
 SELECT * FROM student_org;
 SELECT * FROM member;
