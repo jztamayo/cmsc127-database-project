@@ -197,7 +197,6 @@ INSERT INTO member_pays_fee VALUES
 INSERT INTO member_pays_fee VALUES
   (2009, 215, 'Unpaid', NULL);  -- Alumni Fund, not paid
 
-
 -- --------- INSERTING INTO RED ORG  ---------------------------------------------------------------------------------
 
 -- -- INSERT values INTO member table (For Red Org)
