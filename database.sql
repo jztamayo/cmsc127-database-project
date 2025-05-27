@@ -124,10 +124,10 @@ INSERT INTO fee VALUES
   (210, 'Event Fee', '23-24', str_to_date('12-NOV-2023','%d-%M-%Y'), 900.00, 'Yellow'),
   (211, 'Equipment', '23-24', str_to_date('20-FEB-2024','%d-%M-%Y'), 2300.00, 'Yellow'),
   (212, 'Leadership Training', '23-24', str_to_date('18-JAN-2024','%d-%M-%Y'), 1100.00, 'Yellow'),
-  (213, 'Executive Dues', '23-24', str_to_date('05-MAR-2024','%d-%M-%Y')),
+  (213, 'Executive Dues', '23-24', str_to_date('05-MAR-2024','%d-%M-%Y'), 2100.00, 'Yellow'),
 
-  (215, 'Alumni Fund', '19-20', str_to_date('30-SEP-2019','%d-%M-%Y'), 1000.00, 'Yellow'),
-  (216, 'Alumni Homecoming', '19-20', str_to_date('15-DEC-2019','%d-%M-%Y'), 500.00, 'Yellow'),
+  (214, 'Alumni Fund', '19-20', str_to_date('30-SEP-2019','%d-%M-%Y'), 1000.00, 'Yellow'),
+  (215, 'Alumni Homecoming', '19-20', str_to_date('15-DEC-2019','%d-%M-%Y'), 500.00, 'Yellow');
   
 -- INSERT VALUES to member_pays_fee
 -- 2006: John, President, Active, exec, '24-25'
@@ -182,12 +182,12 @@ INSERT INTO member_pays_fee VALUES
 
 -- 2007: Paul, Member, Inactive, '22-23'
 INSERT INTO member_pays_fee VALUES
-  (2007, 216, 'Unpaid', NULL);            -- Event Fee (23-24), not paid
+  (2007, 210, 'Unpaid', NULL);            -- Event Fee (23-24), not paid
 
 -- 2000: Juan, Member, Alumni, '19-20'
 INSERT INTO member_pays_fee VALUES
-  (2000, 215, 'Completed', '2019-09-25'), -- Alumni Fund, paid
-  (2000, 216, 'Unpaid', NULL);            -- Homecoming, not paid
+  (2000, 214, 'Completed', '2019-09-25'), -- Alumni Fund, paid
+  (2000, 215, 'Unpaid', NULL);            -- Homecoming, not paid
 
 -- 2001: Matthew, Member, Alumni, '18-19'
 INSERT INTO member_pays_fee VALUES
@@ -195,7 +195,7 @@ INSERT INTO member_pays_fee VALUES
 
 -- 2009: James, Member, Alumni, '18-19'
 INSERT INTO member_pays_fee VALUES
-  (2009, 215, 'Unpaid', NULL);  -- Alumni Fund, not paid
+  (2009, 214, 'Unpaid', NULL);  -- Alumni Fund, not paid
 
 -- --------- INSERTING INTO RED ORG  ---------------------------------------------------------------------------------
 
