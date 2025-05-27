@@ -4,7 +4,7 @@
 -- TAMAYO, JOHANNES NIKOLAI WENDELLSOHN Z.
 -- project
 
--- clear 'project' database if there are any to make sure
+-- clear 'student_org_db' database if there are any to make sure
 DROP DATABASE IF EXISTS student_org_db;
 
 -- Create user & grant access 
@@ -21,33 +21,33 @@ USE student_org_db;
 -- Student Organization Table
 CREATE TABLE IF NOT EXISTS student_org (
   org_name VARCHAR(50) PRIMARY KEY,
-  username VARCHAR(25) NOT NULL,
-  password VARCHAR(25) NOT NULL,
-  organization_type VARCHAR(50),
-  maximum_capacity INT(4)
+  username VARCHAR(25) NOT NULL, -- unique username for each organization admin
+  password VARCHAR(25) NOT NULL, -- password for each organization admin
+  organization_type VARCHAR(50), -- e.g. Academic, Non-Academic
+  maximum_capacity INT(4) -- maximum number of members allowed in the organization
 );
 
 -- Member Table
 CREATE TABLE IF NOT EXISTS member (
   member_id INT(5) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  username VARCHAR(25) NOT NULL,
-  password VARCHAR(45) NOT NULL,
+  username VARCHAR(25) NOT NULL, -- unique username for each member
+  password VARCHAR(45) NOT NULL, -- password for each member
   gender VARCHAR(1),
-  batch INT(4) NOT NULL,
-  degree_program VARCHAR(10) NOT NULL, 
-  date_joined DATE NOT NULL 
+  batch INT(4) NOT NULL, -- e.g. 2023, 2024
+  degree_program VARCHAR(10) NOT NULL,  -- e.g. ComSci, Stat, ChemEng, MechEng, Agri
+  date_joined DATE NOT NULL -- date when the member joined the organization
 );
 
 -- Relationship Table ==> student_org_member
 CREATE TABLE IF NOT EXISTS student_org_member (
   org_name VARCHAR(50) NOT NULL,  -- foreign key
   member_id INT(4) NOT NULL,  -- foreign key
-  role VARCHAR(15) NOT NULL, 
-  status VARCHAR(10) NOT NULL 
+  role VARCHAR(15) NOT NULL,  -- e.g. President, Vice President, Secretary, Treasurer, Member
+  status VARCHAR(10) NOT NULL -- e.g. Active, Inactive, Expelled, Suspended, Alumni
   CHECK (status IN ('Active', 'Inactive', 'Expelled', 'Suspended', 'Alumni')), -- uncomment if want to restrict status values
-  is_executive INT(1) NOT NULL,
+  is_executive INT(1) NOT NULL,  -- 1 for executive, 0 for non-executive
   acad_yr VARCHAR(5) NOT NULL,   -- sample: 23-24
-  semester INT(1) NOT NULL,
+  semester INT(1) NOT NULL,      -- 1 for first sem, 2 for second sem
   PRIMARY KEY (org_name, member_id, acad_yr, semester),
   CONSTRAINT student_org_member_student_org_org_name FOREIGN KEY (org_name) REFERENCES student_org(org_name),
   CONSTRAINT student_org_member_member_member_id FOREIGN KEY (member_id) REFERENCES member(member_id)
@@ -56,11 +56,11 @@ CREATE TABLE IF NOT EXISTS student_org_member (
 -- Fee Table
 CREATE TABLE IF NOT EXISTS fee (
   fee_id INT(10) AUTO_INCREMENT PRIMARY KEY,
-  purpose VARCHAR(20) NOT NULL,
-  acad_yr VARCHAR(5) NOT NULL,
+  purpose VARCHAR(20) NOT NULL, -- e.g. Annual Dues, Membership, Event Fee, Equipment, Leadership Training, Executive Dues, Donation
+  acad_yr VARCHAR(5) NOT NULL, -- sample: 24-25
   due_date DATE, -- can be NULL if no due date (e.g. for donations)
-  amount DECIMAL(7,2) NOT NULL,
-  org_name VARCHAR(50) NOT NULL,
+  amount DECIMAL(7,2) NOT NULL, -- amount in PHP
+  org_name VARCHAR(50) NOT NULL, -- foreign key
   CONSTRAINT fee_student_org_org_name FOREIGN KEY (org_name) REFERENCES student_org(org_name)
 );
 
@@ -124,9 +124,11 @@ INSERT INTO fee VALUES
   (210, 'Event Fee', '23-24', str_to_date('12-NOV-2023','%d-%M-%Y'), 900.00, 'Yellow'),
   (211, 'Equipment', '23-24', str_to_date('20-FEB-2024','%d-%M-%Y'), 2300.00, 'Yellow'),
   (212, 'Leadership Training', '23-24', str_to_date('18-JAN-2024','%d-%M-%Y'), 1100.00, 'Yellow'),
-  (213, 'Executive Dues', '23-24', str_to_date('05-MAR-2024','%d-%M-%Y'), 1400.00, 'Yellow'),
-  (214, 'Donation', '23-24', NULL, 3000.00, 'Yellow');
+  (213, 'Executive Dues', '23-24', str_to_date('05-MAR-2024','%d-%M-%Y'), 2100.00, 'Yellow'),
 
+  (214, 'Alumni Fund', '19-20', str_to_date('30-SEP-2019','%d-%M-%Y'), 1000.00, 'Yellow'),
+  (215, 'Alumni Homecoming', '19-20', str_to_date('15-DEC-2019','%d-%M-%Y'), 500.00, 'Yellow');
+  
 -- INSERT VALUES to member_pays_fee
 -- 2006: John, President, Active, exec, '24-25'
 INSERT INTO member_pays_fee VALUES
@@ -180,21 +182,20 @@ INSERT INTO member_pays_fee VALUES
 
 -- 2007: Paul, Member, Inactive, '22-23'
 INSERT INTO member_pays_fee VALUES
-  (2007, 211, 'Unpaid', NULL);
+  (2007, 210, 'Unpaid', NULL);            -- Event Fee (23-24), not paid
 
 -- 2000: Juan, Member, Alumni, '19-20'
 INSERT INTO member_pays_fee VALUES
-  (2000, 201, 'Completed', '2019-07-15'),
-  (2000, 202, 'Completed', '2019-08-01');
+  (2000, 214, 'Completed', '2019-09-25'), -- Alumni Fund, paid
+  (2000, 215, 'Unpaid', NULL);            -- Homecoming, not paid
 
 -- 2001: Matthew, Member, Alumni, '18-19'
 INSERT INTO member_pays_fee VALUES
-  (2001, 201, 'Completed', '2018-07-15');
+  (2001, 207, 'Completed', '2023-11-10'); -- Donation
 
 -- 2009: James, Member, Alumni, '18-19'
 INSERT INTO member_pays_fee VALUES
-  (2009, 201, 'Unpaid', NULL);
-
+  (2009, 214, 'Unpaid', NULL);  -- Alumni Fund, not paid
 
 --------- INSERTING INTO RED ORG  ---------------------------------------------------------------------------------
 
@@ -365,10 +366,10 @@ SELECT * FROM member_pays_fee;
 SELECT member_id, username, role, status, gender, batch, degree_program, is_executive FROM student_org_member JOIN member USING(member_id) WHERE org_name = "Yellow";
 
 -- 2
-SELECT member_id, fee_id, mem.org_name, username, pays.status, purpose, amount, fee.acad_yr, due_date FROM member JOIN member_pays_fee pays USING(member_id) JOIN fee USING(fee_id) JOIN student_org_member mem USING(member_id) WHERE mem.org_name = "Blue" AND pays.status = "Unpaid";
+SELECT member_id, fee_id, mem.org_name, username, pays.status, purpose, amount, fee.acad_yr, due_date FROM member JOIN member_pays_fee pays USING(member_id) JOIN fee USING(fee_id) JOIN student_org_member mem USING(member_id) WHERE mem.org_name = "Yellow" AND pays.status = "Unpaid";
 
 -- 3
-SELECT * FROM student_org_member JOIN member_pays_fee USING(member_id) WHERE org_name = "Yellow" AND member_id = 2000 AND member_pays_fee.status = "Unpaid";
+SELECT * FROM student_org_member JOIN member_pays_fee USING(member_id) WHERE org_name = "Yellow" AND member_id = 2006 AND member_pays_fee.status = "Unpaid";
 
 -- 4
 SELECT * FROM student_org_member WHERE role != "Member" AND acad_yr = "24-25" AND org_name = "Yellow";
@@ -377,17 +378,23 @@ SELECT * FROM student_org_member WHERE role != "Member" AND acad_yr = "24-25" AN
 SELECT * FROM student_org_member WHERE role != "Member" AND org_name = "Yellow" ORDER BY acad_yr desc;
 
 -- 6
-SELECT * FROM member_pays_fee JOIN fee USING(fee_id) JOIN student_org_member USING(member_id) WHERE payment_date > due_date AND student_org_member.org_name = "Green" AND student_org_member.acad_yr = "22-23" AND semester = 1;
+SELECT * FROM member_pays_fee JOIN fee USING(fee_id) JOIN student_org_member USING(member_id) WHERE payment_date > due_date AND student_org_member.org_name = "Yellow" AND student_org_member.acad_yr = "23-24" AND semester = 1;
 
 -- 7
 SELECT org_name, member_id, role, status, acad_yr, semester, (COUNT(CASE WHEN status = 'Active' THEN 1 END) * 1.0 /COUNT(member_id)) * 100.0 AS "Active Member Percetage" FROM student_org_member WHERE org_name = 'Yellow' AND acad_yr = "24-25" AND semester = 1 GROUP BY org_name, acad_yr, semester;
 
 -- 8 
 
-
--- 9 
-SELECT member_id, fee_id, member_pays_fee.status, amount, student_org_member.org_name, SUM(amount) FROM member_pays_fee JOIN fee USING(fee_id) JOIN student_org_member USING (member_id) GROUP BY status;
-SELECT member_id, fee_id, member_pays_fee.status, amount, student_org_member.org_name, SUM(amount) FROM member_pays_fee JOIN fee USING(fee_id) JOIN student_org_member USING (member_id) WHERE student_org_member.org_name = "blue" GROUP BY status; --Wala pang date
+-- 9
+SELECT member_pays_fee.status, SUM(fee.amount) AS total_amount
+FROM member_pays_fee
+  JOIN fee ON member_pays_fee.fee_id = fee.fee_id
+  JOIN student_org_member ON member_pays_fee.member_id = student_org_member.member_id
+WHERE 
+  student_org_member.org_name = 'Yellow'
+  AND (fee.due_date IS NULL OR fee.due_date <= '2024-12-31') -- as of this date
+GROUP BY 
+  member_pays_fee.status;
 
 -- 10
 SELECT member_id, student_org_member.org_name, username, fee_id, purpose, amount, due_date, student_org_member.acad_yr, semester FROM member JOIN member_pays_fee USING(member_id) JOIN student_org_member USING(member_id) JOIN fee USING(fee_id) WHERE member_pays_fee.status = "Unpaid" AND student_org_member.org_name = "Blue" AND student_org_member.acad_yr = "22-23" AND semester = 2 ORDER BY amount DESC;
