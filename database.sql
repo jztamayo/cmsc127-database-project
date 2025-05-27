@@ -20,7 +20,6 @@ USE student_org_db;
 -- Student Organization Table
 CREATE TABLE IF NOT EXISTS student_org (
   org_name VARCHAR(50) PRIMARY KEY,
-  org
   username VARCHAR(25) NOT NULL,
   password VARCHAR(25) NOT NULL,
   organization_type VARCHAR(50),
@@ -160,3 +159,62 @@ SELECT * FROM fee; -- view table update
 
 -- ROLLBACK changes
 -- ROLLBACK; -- optional
+
+-- CORE FUNCTIONALITYIES ----------------------------------------------------------------------------------------
+
+--------- MEMBERSHIP MANAGEMENT ---------------------------------------------------------------------------------
+
+-- 1 ADD MEMBER
+INSERT INTO member (username, password, gender, batch, degree_program, date_joined)
+VALUES ('Quevin', 'quevin26', 'M', 2023, 'BSCS', str_to_date('26-JUN-2023','%d-%M-%Y'));
+
+-- 2 UPDATE MEMBER USING MEMBER ID
+UPDATE member SET username = "Kevin", gender = "F", batch = 2022, degree_program = "BCIT", date_joined = str_to_date('21-JUN-2023','%d-%M-%Y') WHERE member_id = 2005;
+
+-- 3 DELETE MEMBER USING MEMBER ID
+DELETE FROM member WHERE member_id = 2005;
+
+-- 4 SEARCH FOR ALL MEMBER NAMES
+SELECT username FROM member;
+
+-- 4 SEARCH FOR ALL MEMBER NAMES AND DETAILS
+SELECT * FROM member;
+
+-- 4 SEARCH FOR ONE MEMBER AND ALL DETAILS USING MEMBER ID
+SELECT * FROM member WHERE member_id = 2003;
+
+-- 5 
+
+
+--------- REPORTS TO BE GENERATED ---------------------------------------------------------------------------------
+
+-- 1 
+SELECT member_id, username, role, status, gender, batch, degree_program, is_executive FROM student_org_member JOIN member USING(member_id) WHERE org_name = "Yellow";
+
+-- 2
+SELECT member_id, fee_id, mem.org_name, username, pays.status, purpose, amount, fee.acad_yr, due_date FROM member JOIN member_pays_fee pays USING(member_id) JOIN fee USING(fee_id) JOIN student_org_member mem USING(member_id) WHERE mem.org_name = "Blue" AND pays.status = "Unpaid";
+
+-- 3
+SELECT * FROM student_org_member JOIN member_pays_fee USING(member_id) WHERE org_name = "Yellow" AND member_id = 2000 AND member_pays_fee.status = "Unpaid";
+
+-- 4
+SELECT * FROM student_org_member WHERE role != "Member" AND acad_yr = "24-25" AND org_name = "Yellow";
+
+-- 5 
+SELECT * FROM student_org_member WHERE role != "Member" AND org_name = "Yellow" ORDER BY acad_yr desc;
+
+-- 6
+SELECT * FROM member_pays_fee JOIN fee USING(fee_id) JOIN student_org_member USING(member_id) WHERE payment_date > due_date AND student_org_member.org_name = "Green" AND student_org_member.acad_yr = "22-23" AND semester = 1;
+
+-- 7
+SELECT org_name, member_id, role, status, acad_yr, semester, (COUNT(CASE WHEN status = 'Active' THEN 1 END) * 1.0 /COUNT(member_id)) * 100.0 AS "Active Member Percetage" FROM student_org_member WHERE org_name = 'Yellow' AND acad_yr = "24-25" AND semester = 1 GROUP BY org_name, acad_yr, semester;
+
+-- 8 
+
+
+-- 9 
+SELECT member_id, fee_id, member_pays_fee.status, amount, student_org_member.org_name, SUM(amount) FROM member_pays_fee JOIN fee USING(fee_id) JOIN student_org_member USING (member_id) GROUP BY status;
+SELECT member_id, fee_id, member_pays_fee.status, amount, student_org_member.org_name, SUM(amount) FROM member_pays_fee JOIN fee USING(fee_id) JOIN student_org_member USING (member_id) WHERE student_org_member.org_name = "blue" GROUP BY status; --Wala pang date
+
+-- 10
+SELECT member_id, student_org_member.org_name, username, fee_id, purpose, amount, due_date, student_org_member.acad_yr, semester FROM member JOIN member_pays_fee USING(member_id) JOIN student_org_member USING(member_id) JOIN fee USING(fee_id) WHERE member_pays_fee.status = "Unpaid" AND student_org_member.org_name = "Blue" AND student_org_member.acad_yr = "22-23" AND semester = 2 ORDER BY amount DESC;
