@@ -196,26 +196,21 @@ INSERT INTO member_pays_fee VALUES
   (2009, 201, 'Unpaid', NULL);
 
 
--- --------- INSERTING INTO RED ORG  ---------------------------------------------------------------------------------
+--------- INSERTING INTO RED ORG  ---------------------------------------------------------------------------------
 
--- -- INSERT values INTO member table (For Red Org)
--- INSERT INTO member
--- VALUES
---   (3000, 'Matthew', 'matt20', 'M', 2020, 'Stat', str_to_date('14-NOV-2019','%d-%M-%Y'));
-
--- -- insert w/o member_id for auto_increment
--- INSERT INTO member (username, password, gender, batch, degree_program, date_joined)
--- VALUES
---   -- for Yellow
---   ('Aiden', 'aidenpw', 'M', 2018, 'Agri', str_to_date('14-NOV-2019','%d-%M-%Y')),
---   ('Sophia', 'sophiapw', 'F', 2023, 'ChemEng', str_to_date('07-MAY-2024','%d-%M-%Y')),
---   ('Liam', 'liampw', 'M', 2024, 'MechEng', str_to_date('11-NOV-2024','%d-%M-%Y')),
---   ('Olivia', 'oliviapw', 'F', 2024, 'MechEng', str_to_date('20-MAR-2025','%d-%M-%Y')),
---   ('Noah', 'noahpw', 'M', 2023, 'ComSci', str_to_date('20-NOV-2023','%d-%M-%Y')),
---   ('Emma', 'emmapw', 'F', 2022, 'Stat', str_to_date('26-MAR-2023','%d-%M-%Y')),
---   ('Lucas', 'lucaspw', 'M', 2020, 'Stat', str_to_date('20-APR-2021','%d-%M-%Y')),
---   ('Mia', 'miapw', 'F', 2013, 'ChemEng', str_to_date('20-APR-2014','%d-%M-%Y')),
---   ('Ethan', 'ethanpw', 'M', 2015, 'Agri', str_to_date('16-MAR-2016','%d-%M-%Y'));
+-- MEMBERS 
+INSERT INTO member (member_id, username, password, gender, batch, degree_program, date_joined)
+VALUES
+  (3000, 'Ayako', 'ayako123', 'F', 2020, 'Physics', str_to_date('10-SEP-2020','%d-%b-%Y')),
+  (3001, 'Rene', 'rene_san', 'F', 2021, 'ChemEng', str_to_date('05-AUG-2021','%d-%b-%Y')),
+  (3002, 'Sakura', 'sakuracherry', 'F', 2022, 'ComSci', str_to_date('12-SEP-2022','%d-%b-%Y')),
+  (3003, 'Yuuta', 'yuutarun', 'M', 2023, 'MechEng', str_to_date('01-OCT-2023','%d-%b-%Y')),
+  (3004, 'Nanami', 'nanami_chan', 'F', 2023, 'Stat', str_to_date('01-OCT-2023','%d-%b-%Y')),
+  (3005, 'Kengo', 'drkengo', 'M', 2019, 'Agri', str_to_date('25-DEC-2019','%d-%b-%Y')),
+  (3006, 'Akane', 'akanedaisuki', 'F', 2021, 'ComSci', str_to_date('08-AUG-2021','%d-%b-%Y')),
+  (3007, 'Hitomi', 'eyeeyeeye', 'F', 2022, 'Physics', str_to_date('15-SEP-2022','%d-%b-%Y')),
+  (3008, 'Daiki', 'drdaiki', 'M', 2020, 'ChemEng', str_to_date('03-SEP-2020','%d-%b-%Y')),
+  (3009, 'Kotoha', 'kotohahaha', 'F', 2018, 'Agri', str_to_date('30-NOV-2018','%d-%b-%Y'));
 
 -- -- INSERT VALUES to fee table
 -- INSERT INTO fee -- initial insert
